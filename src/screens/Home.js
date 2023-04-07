@@ -10,6 +10,7 @@ export default function Home() {
             Home page!
         </RN.Text>
         <RN.Button title="go to add screen" onPress={() => navigation.navigate('Add')}/>
+        <RN.Button title="Nearby Stores" onPress={() => navigation.navigate('Stores')}/>
         </>
     )
 }
