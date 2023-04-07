@@ -1,9 +1,10 @@
 import * as React from 'react'
 import * as RN from 'react-native'
+import { database } from '../config/fb'
+import { collection, addDoc } from 'firebase/firestore'
 import { useNavigation } from '@react-navigation/native'
-import Constants from "expo-constants";
 
-export default function Add() {
+export default function Update() {
     const navigation = useNavigation();
   
     const [newUser, setNewUser] = React.useState({
@@ -14,8 +15,8 @@ export default function Add() {
     });
   
     const handleRegister = async () => {
-      const apiKey = Constants.manifest.extra.apiKey;
-      const merchantId = Constants.manifest.extra.merchantId;
+      const apiKey = 'sk_1310e99b2d294229a10e22817899bb20';
+      const merchantId = 'mqv9dbsh26houzesz5fg';
       const url = `https://sandbox-api.openpay.mx/v1/${merchantId}/customers`;
   
       const response = await fetch(url, {
@@ -36,7 +37,7 @@ export default function Add() {
   
       if (response.ok) {
         const json = await response.json();
-        
+        console.log(json);
         navigation.goBack();
       } else {
         console.log('Error creating customer', await response.text());
@@ -71,51 +72,6 @@ export default function Add() {
       </RN.View>
     );
   }
-
-/* export default function Add() {
-    const navigation = useNavigation();
-    const [newUser, setNewUser] = React.useState({
-        name: '',
-        email: '',
-        birthdate: '',
-        phone: '',
-        createdAt: new Date(),
-        active: true
-    })
-
-    const onSend = async () => {
-        await addDoc(collection(database, 'users'), newUser)
-        navigation.goBack();
-    }
-    return (
-        <RN.View style={styles.container}> 
-        <RN.Text style={styles.title}>Create user</RN.Text>
-        <RN.TextInput 
-        placeholder='Full Name' 
-        style={styles.inputContainer}
-        onChangeText={(fullname) => setNewUser({...newUser, name:fullname})}
-        />
-        <RN.TextInput 
-        placeholder='Email' 
-        style={styles.inputContainer}
-        onChangeText={(email) => setNewUser({...newUser, email:email})}
-        />
-        
-        <RN.TextInput
-        placeholder='Birthdate DD/MM/YYYY' 
-        style={styles.inputContainer}
-        onChangeText={(date) => setNewUser({...newUser, birthdate:date})}
-        />
-        <RN.TextInput
-        placeholder='Phone Number' 
-        style={styles.inputContainer}
-        onChangeText={(number) => setNewUser({...newUser, phone:number})}
-        keyboardType='phone-pad'
-        />
-        <RN.Button title='Register' onPress={onSend}/>
-        </RN.View>
-    )
-} */
 
 const styles = RN.StyleSheet.create({
     container: {
