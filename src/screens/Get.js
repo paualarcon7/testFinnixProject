@@ -166,7 +166,7 @@ const styles = RN.StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: "#0FA5E9",
+    backgroundColor: "teal",
     padding: 10,
     marginVertical: 6,
     borderRadius: 8,
