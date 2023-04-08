@@ -5,6 +5,8 @@ import Home from "./screens/Home";
 import Add from "./screens/Add";
 import Stores from "./screens/Stores";
 import Get from "./screens/Get";
+import Update from "./screens/Update";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -12,9 +14,11 @@ function MyStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Add" component={Add} options={{presentation: 'modal'}}/>
-      <Stack.Screen name="Get" component={Get} options={{presentation: 'modal'}}/>
       <Stack.Screen name="Stores" component={Stores} options={{presentation: 'modal'}}/>
+      <Stack.Screen name="Add" component={Add}/>
+      <Stack.Screen name="Get" component={Get}/>
+      <Stack.Screen name="Update" component={Update} options={{presentation: 'modal'}}/>
+  
     </Stack.Navigator>
   );
 }

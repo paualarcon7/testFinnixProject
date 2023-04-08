@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Constants from "expo-constants";
 global.Buffer = global.Buffer || require("buffer").Buffer;
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import Update from "./Update";
 
 export default function Get() {
   const navigation = useNavigation();
@@ -17,20 +18,54 @@ export default function Get() {
     const merchantId = Constants.manifest.extra.merchantId;
     const url = `https://sandbox-api.openpay.mx/v1/${merchantId}/customers`;
 
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString("base64")}`,
-      },
-    });
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString(
+            "base64"
+          )}`,
+        },
+      });
 
-    const json = await response.json();
-    setUsers(json);
-    setLoading(false);
+      const json = await response.json();
+      setUsers(json);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDeleteUser = async (user) => {
+    setLoading(true);
+    const apiKey = Constants.manifest.extra.apiKey;
+    const merchantId = Constants.manifest.extra.merchantId;
+    const url = `https://sandbox-api.openpay.mx/v1/${merchantId}/customers/${user.id}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString(
+            "base64"
+          )}`,
+        },
+      });
+
+      await response.json();
+      handleGetUsers();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   React.useEffect(() => {
     handleGetUsers();
   }, []);
+
+  React.useEffect(() => {
+    handleGetUsers();
+    setLoading(false);
+  }, [users]);
 
   return (
     <RN.View>
@@ -50,12 +85,38 @@ export default function Get() {
                       marginBottom: 10,
                     }}
                   >
-                    <FontAwesome
-                      name="pencil-square-o"
-                      size={24}
-                      color="black"
-                    />
-                    <AntDesign name="delete" size={24} color="black" />
+                    <RN.TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("Update", { user: item })
+                      }
+                    >
+                      <FontAwesome
+                        name="pencil-square-o"
+                        size={24}
+                        color="black"
+                      />
+                    </RN.TouchableOpacity>
+                    <RN.TouchableOpacity
+                      onPress={() =>
+                        RN.Alert.alert(
+                          "Delete user",
+                          "Are you sure you want to delete this user?",
+                          [
+                            {
+                              text: "Cancel",
+                              style: "cancel",
+                            },
+                            {
+                              text: "Confirm",
+                              onPress: () => handleDeleteUser(item),
+                            },
+                          ],
+                          { cancelable: false }
+                        )
+                      }
+                    >
+                      <AntDesign name="delete" size={24} color="black" />
+                    </RN.TouchableOpacity>
                   </RN.View>
                   <RN.Text style={styles.name}>Name: {item.name}</RN.Text>
                   <RN.Text style={styles.email}>Email: {item.email}</RN.Text>
@@ -66,15 +127,15 @@ export default function Get() {
             <RN.TouchableOpacity
               title="Back Home"
               onPress={() => navigation.navigate("Home")}
-              style={styles.button}>
-                <RN.Text style={styles.buttonText}>Back home</RN.Text>
+              style={styles.button}
+            >
+              <RN.Text style={styles.buttonText}>Back home</RN.Text>
             </RN.TouchableOpacity>
           </>
         )}
       </RN.View>
     </RN.View>
   );
-
 }
 
 const styles = RN.StyleSheet.create({
@@ -87,13 +148,13 @@ const styles = RN.StyleSheet.create({
   name: {
     fontSize: 25,
     fontWeight: "bold",
-    marginBottom: 10
+    marginBottom: 10,
   },
   email: {
     fontSize: 15,
     fontWeight: "bold",
     color: "gray",
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   card: {
@@ -105,15 +166,15 @@ const styles = RN.StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#0FA5E9',
+    backgroundColor: "#0FA5E9",
     padding: 10,
     marginVertical: 6,
     borderRadius: 8,
-    alignItems: 'center'
-},
-buttonText: {
+    alignItems: "center",
+  },
+  buttonText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-},
+    fontWeight: "bold",
+    color: "#fff",
+  },
 });
