@@ -17,7 +17,7 @@ function MyStack() {
       <Stack.Screen name="Stores" component={Stores} options={{presentation: 'modal'}}/>
       <Stack.Screen name="Add" component={Add}/>
       <Stack.Screen name="Get" component={Get}/>
-      <Stack.Screen name="Update" component={Update} options={{presentation: 'modal'}}/>
+      <Stack.Screen name="Update" component={Update}/>
   
     </Stack.Navigator>
   );

@@ -10,8 +10,8 @@ export default function Add() {
 
   const [newUser, setNewUser] = React.useState({
     name: "",
+    last_name: "",
     email: "",
-    birth_date: "",
     phone_number: "",
   });
 
@@ -30,7 +30,7 @@ export default function Add() {
         name: newUser.name,
         email: newUser.email,
         phone_number: newUser.phone_number,
-        birth_date: newUser.birth_date,
+        last_name: newUser.last_name,
         requires_account: false,
         external_id:
           Math.random().toString(36).substring(2, 15) +
@@ -64,18 +64,19 @@ export default function Add() {
         placeholder="Full Name"
         onChangeText={(fullname) => setNewUser({ ...newUser, name: fullname })}
       />
+        <RN.TextInput
+          style={styles.inputContainer}
+          placeholder="Last Name"
+          onChangeText={(last_name) =>
+            setNewUser({ ...newUser, last_name: last_name })
+          }
+        />
       <RN.TextInput
         style={styles.inputContainer}
         placeholder="Email"
         onChangeText={(email) => setNewUser({ ...newUser, email })}
       />
-      <RN.TextInput
-        style={styles.inputContainer}
-        placeholder="Birthdate YYYY-MM-DD"
-        onChangeText={(birthdate) =>
-          setNewUser({ ...newUser, birth_date: birthdate })
-        }
-      />
+    
       <RN.TextInput
         style={styles.inputContainer}
         placeholder="Phone Number"

@@ -4,7 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import Constants from "expo-constants";
 global.Buffer = global.Buffer || require("buffer").Buffer;
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import Update from "./Update";
+import loader from "../../assets/loader.jpg";
+import myImage from "../../assets/RectangleHome.png";
 
 export default function Get() {
   const navigation = useNavigation();
@@ -17,8 +18,9 @@ export default function Get() {
     const apiKey = Constants.manifest.extra.apiKey;
     const merchantId = Constants.manifest.extra.merchantId;
     const url = `https://sandbox-api.openpay.mx/v1/${merchantId}/customers`;
-
+    
     try {
+      
       const response = await fetch(url, {
         headers: {
           Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString(
@@ -29,7 +31,7 @@ export default function Get() {
 
       const json = await response.json();
       setUsers(json);
-      setLoading(false);
+      
     } catch (err) {
       console.log(err);
     }
@@ -60,21 +62,23 @@ export default function Get() {
 
   React.useEffect(() => {
     handleGetUsers();
-  }, []);
-
-  React.useEffect(() => {
-    handleGetUsers();
     setLoading(false);
   }, [users]);
 
   return (
-    <RN.View>
-      <RN.View style={styles.container}>
-        {loading ? (
-          <RN.Text>Loading...</RN.Text>
-        ) : (
-          <>
+      <RN.View style={{ flex: 1 }}>
+      {loading ? (
+          <RN.View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <RN.Image source={loader} style={{ width: 100, height: 100 }} />
+        </RN.View>
+      ) : (
+          <RN.View style={{ flex: 1 }}>
+            <RN.ImageBackground source={myImage}>
+          <RN.View style={styles.container}>
             <RN.FlatList
+            style={{marginBottom:20}}
               data={users}
               renderItem={({ item }) => (
                 <RN.View style={styles.card}>
@@ -118,22 +122,18 @@ export default function Get() {
                       <AntDesign name="delete" size={24} color="black" />
                     </RN.TouchableOpacity>
                   </RN.View>
-                  <RN.Text style={styles.name}>Name: {item.name}</RN.Text>
+                  
+                  <RN.Text style={styles.name}>Name: {item.name} {item.last_name}</RN.Text>
                   <RN.Text style={styles.email}>Email: {item.email}</RN.Text>
                 </RN.View>
               )}
               keyExtractor={(item) => item.id}
             />
-            <RN.TouchableOpacity
-              title="Back Home"
-              onPress={() => navigation.navigate("Home")}
-              style={styles.button}
-            >
-              <RN.Text style={styles.buttonText}>Back home</RN.Text>
-            </RN.TouchableOpacity>
-          </>
-        )}
-      </RN.View>
+            
+          </RN.View>
+      </RN.ImageBackground>
+        </RN.View>
+      )}
     </RN.View>
   );
 }
@@ -164,17 +164,7 @@ const styles = RN.StyleSheet.create({
     borderColor: "#ddd",
     padding: 10,
     marginBottom: 10,
+    borderColor: 'teal'
   },
-  button: {
-    backgroundColor: "teal",
-    padding: 10,
-    marginVertical: 6,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
-  },
+
 });
