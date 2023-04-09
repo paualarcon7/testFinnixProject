@@ -19,6 +19,16 @@ export default {
       "supportsTablet": true
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCL-5tRfLYV84QcI0Sx3WlYdyj9FDyaH84"
+        }
+      },
+       "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "android.permission.BATTERY_STATS"
+      ],
       "package": "com.testProject.testProject",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -28,11 +38,14 @@ export default {
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    extra: {
-      apiKey: process.env.API_KEY,
-      merchantId: process.env.MERCHANT_ID,
+    "extra": {
+      "apiKey": "sk_1310e99b2d294229a10e22817899bb20",
+      "merchantId": "mqv9dbsh26houzesz5fg",
       "eas": {
         "projectId": "64b02efc-803c-49eb-b0d3-f9477c0636a1"
+      },
+      "googleMaps": {
+        "apiKey": "AIzaSyCL-5tRfLYV84QcI0Sx3WlYdyj9FDyaH84"
       }
     }
   }
