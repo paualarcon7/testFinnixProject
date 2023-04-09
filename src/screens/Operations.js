@@ -10,9 +10,9 @@ export default function Operations() {
             Please choose what you want to do:
         </RN.Text>
         <RN.Button title="Create user" onPress={() => navigation.navigate('Add')}/>
-        <RN.Button title="Get users" /* onPress={() => navigation.navigate('Get')} *//>
-        <RN.Button title="Update user" /* onPress={() => navigation.navigate('Update')} *//>
-        <RN.Button title="Delete user" /* onPress={() => navigation.navigate('Delete')} *//>
+        <RN.Button title="Get users"/>
+        <RN.Button title="Update user" />
+        <RN.Button title="Delete user"/>
         </>
     )
 }

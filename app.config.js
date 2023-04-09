@@ -19,6 +19,7 @@ export default {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.testProject.testProject",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -29,7 +30,11 @@ export default {
     },
     extra: {
       apiKey: process.env.API_KEY,
-      merchantId: process.env.MERCHANT_ID
+      merchantId: process.env.MERCHANT_ID,
+      "eas": {
+        "projectId": "64b02efc-803c-49eb-b0d3-f9477c0636a1"
+      }
     }
   }
 }
+

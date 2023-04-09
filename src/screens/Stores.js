@@ -15,8 +15,8 @@ export default function Stores() {
     
     const getNearbyStores = async () => {
         setLoading(true);
-        const lat = 19.3903845; // latitude
-        const lon = -99.1665647; // longitude
+        const lat = 19.3903845; 
+        const lon = -99.1665647;
         const apiKey = Constants.manifest.extra.apiKey;
         const kilometers = 20;
         const amount = 10000;
