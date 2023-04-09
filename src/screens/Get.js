@@ -33,7 +33,7 @@ export default function Get() {
       setUsers(json);
       
     } catch (err) {
-      console.log(err);
+      alert(console.log("Error getting users: ",err))
     }
   };
 
@@ -56,7 +56,7 @@ export default function Get() {
       await response.json();
       handleGetUsers();
     } catch (err) {
-      console.log(err);
+      console.log("Error deleting user: " ,err);
     }
   };
 

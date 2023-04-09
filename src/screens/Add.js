@@ -3,7 +3,7 @@ import * as RN from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Constants from "expo-constants";
 import myImage from "../../assets/RectangleHome.png";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Add() {
   const navigation = useNavigation();
@@ -20,50 +20,51 @@ export default function Add() {
     const merchantId = Constants.manifest.extra.merchantId;
     const url = `https://sandbox-api.openpay.mx/v1/${merchantId}/customers`;
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString("base64")}`,
-      },
-      body: JSON.stringify({
-        name: newUser.name,
-        email: newUser.email,
-        phone_number: newUser.phone_number,
-        last_name: newUser.last_name,
-        requires_account: false,
-        external_id:
-          Math.random().toString(36).substring(2, 15) +
-          Math.random().toString(36).substring(2, 15),
-      }),
-    });
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString(
+            "base64"
+          )}`,
+        },
+        body: JSON.stringify({
+          name: newUser.name,
+          email: newUser.email,
+          phone_number: newUser.phone_number,
+          last_name: newUser.last_name,
+          requires_account: false,
+          external_id:
+            Math.random().toString(36).substring(2, 15) +
+            Math.random().toString(36).substring(2, 15),
+        }),
+      });
 
-    if (response.ok) {
       const json = await response.json();
 
       navigation.goBack();
-    } else {
-      console.log("Error creating customer", await response.text());
+    } catch (err) {
+      console.log("Error creating customer: ", err);
     }
   };
 
   return (
-   
     <KeyboardAwareScrollView>
-    <RN.View style={styles.container}>
-      
-      <RN.Image source={myImage} style={styles.backgroundImage} />
-      
-      <RN.View style={styles.titleContainer}>
-        <RN.Text style={styles.title}>Create user</RN.Text>
-      </RN.View>
-      
-       
-      <RN.TextInput
-        style={styles.inputContainer}
-        placeholder="Full Name"
-        onChangeText={(fullname) => setNewUser({ ...newUser, name: fullname })}
-      />
+      <RN.View style={styles.container}>
+        <RN.Image source={myImage} style={styles.backgroundImage} />
+
+        <RN.View style={styles.titleContainer}>
+          <RN.Text style={styles.title}>Create user</RN.Text>
+        </RN.View>
+
+        <RN.TextInput
+          style={styles.inputContainer}
+          placeholder="Full Name"
+          onChangeText={(fullname) =>
+            setNewUser({ ...newUser, name: fullname })
+          }
+        />
         <RN.TextInput
           style={styles.inputContainer}
           placeholder="Last Name"
@@ -71,31 +72,30 @@ export default function Add() {
             setNewUser({ ...newUser, last_name: last_name })
           }
         />
-      <RN.TextInput
-        style={styles.inputContainer}
-        placeholder="Email"
-        onChangeText={(email) => setNewUser({ ...newUser, email })}
-      />
-    
-      <RN.TextInput
-        style={styles.inputContainer}
-        placeholder="Phone Number"
-        onChangeText={(phoneNumber) =>
-          setNewUser({ ...newUser, phone_number: phoneNumber })
-        }
-        keyboardType="phone-pad"
-      />
-      
-      
-      <RN.TouchableOpacity style={styles.buttonContainer}
-      title="Register" 
-      onPress={handleRegister}
-      >
-        <RN.Text style={styles.buttonText}> Register</RN.Text>
-      </RN.TouchableOpacity>
-    </RN.View>
+        <RN.TextInput
+          style={styles.inputContainer}
+          placeholder="Email"
+          onChangeText={(email) => setNewUser({ ...newUser, email })}
+        />
+
+        <RN.TextInput
+          style={styles.inputContainer}
+          placeholder="Phone Number"
+          onChangeText={(phoneNumber) =>
+            setNewUser({ ...newUser, phone_number: phoneNumber })
+          }
+          keyboardType="phone-pad"
+        />
+
+        <RN.TouchableOpacity
+          style={styles.buttonContainer}
+          title="Register"
+          onPress={handleRegister}
+        >
+          <RN.Text style={styles.buttonText}> Register</RN.Text>
+        </RN.TouchableOpacity>
+      </RN.View>
     </KeyboardAwareScrollView>
-  
   );
 }
 

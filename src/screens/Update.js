@@ -42,7 +42,7 @@ export default function Update({ route }) {
 
     navigation.navigate("Get");
     } catch (err) {
-        console.log(err);
+        console.log("Error updating user: ",err);
         navigation.navigate("Get");
     }
     
